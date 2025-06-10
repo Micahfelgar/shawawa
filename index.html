@@ -37,7 +37,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 1000;
+      z-index: 1001;
     }
 
     .logo {
@@ -73,6 +73,7 @@
       color: var(--brand-yellow);
     }
 
+    /* MOBILE STYLES */
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
@@ -91,11 +92,32 @@
         gap: 1.5rem;
         transition: right 0.4s ease;
         box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1002;
       }
 
       .nav-links.show {
         right: 0;
       }
+
+      .overlay {
+        display: block;
+      }
+    }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: 1000;
+      display: none;
+    }
+
+    .overlay.show {
+      display: block;
     }
 
     header {
@@ -207,18 +229,23 @@
 </head>
 <body>
 
+  <!-- Overlay for mobile -->
+  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+  <!-- Navigation -->
   <nav>
     <div class="logo">Shawawa</div>
     <button class="menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">☰</button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#home" onclick="toggleMenu()">Home</a></li>
-      <li><a href="#about" onclick="toggleMenu()">About</a></li>
-      <li><a href="#menu" onclick="toggleMenu()">Menu</a></li>
-      <li><a href="#find-us" onclick="toggleMenu()">Find Us</a></li>
-      <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+      <li><a href="#home" onclick="closeMenu()">Home</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
+      <li><a href="#menu" onclick="closeMenu()">Menu</a></li>
+      <li><a href="#find-us" onclick="closeMenu()">Find Us</a></li>
+      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
     </ul>
   </nav>
 
+  <!-- Header -->
   <header id="home">
     <img src="Full size logo.jpg" alt="Shawawa Shawarma Logo" />
     <h1>SHAWAWA SHAWARMA</h1>
@@ -226,6 +253,7 @@
     <button class="cta-button" onclick="document.getElementById('find-us').scrollIntoView({behavior: 'smooth'})">Find Us Today!</button>
   </header>
 
+  <!-- About -->
   <section class="about" id="about">
     <h2>Who We Are</h2>
     <p>
@@ -234,6 +262,7 @@
     </p>
   </section>
 
+  <!-- Menu -->
   <section class="menu" id="menu">
     <h2>Our Signature Bites</h2>
     <div class="menu-items">
@@ -252,25 +281,46 @@
     </div>
   </section>
 
+  <!-- Location -->
   <section class="find-us" id="find-us">
     <h2>Where to Find Us</h2>
     <p>Follow us around Vancouver – we’re serving fresh every day!</p>
     <iframe src="https://www.google.com/maps/embed/v1/place?q=800+Robson+St,+Vancouver,+Canada&key=YOUR_GOOGLE_MAPS_API_KEY" allowfullscreen></iframe>
   </section>
 
+  <!-- Contact -->
   <section id="contact" style="text-align:center; background: var(--brand-pink); padding: 3rem 1rem; border-radius: 1rem;">
     <h2>Contact Us</h2>
     <p>Email us at <a href="mailto:info@shawawa.ca">info@shawawa.ca</a> or DM us on Instagram @shawawashawarma</p>
   </section>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Shawawa Shawarma | <a href="https://shawawa.ca">shawawa.ca</a></p>
   </footer>
 
+  <!-- Scripts -->
   <script>
     function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('show');
+      const navLinks = document.getElementById('navLinks');
+      const overlay = document.getElementById('overlay');
+      navLinks.classList.toggle('show');
+      overlay.classList.toggle('show');
     }
+
+    function closeMenu() {
+      const navLinks = document.getElementById('navLinks');
+      const overlay = document.getElementById('overlay');
+      navLinks.classList.remove('show');
+      overlay.classList.remove('show');
+    }
+
+    // Auto-close on resize if window becomes desktop-sized
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeMenu();
+      }
+    });
   </script>
 </body>
 </html>
