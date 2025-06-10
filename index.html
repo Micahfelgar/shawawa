@@ -27,18 +27,79 @@
       color: var(--brand-blue);
     }
 
-    nav {
-      background: white;
-      border-bottom: 2px solid var(--brand-yellow);
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
+    /* Add to existing styles */
+
+nav {
+  background: white;
+  border-bottom: 2px solid var(--brand-yellow);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--brand-blue);
+  cursor: pointer;
+  display: none;
+}
+
+/* Navigation links for desktop */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--brand-blue);
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--brand-yellow);
+}
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70%;
+    background: white;
+    flex-direction: column;
+    align-items: start;
+    padding: 4rem 2rem;
+    gap: 1.5rem;
+    transition: right 0.4s ease;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links.show {
+    right: 0;
+  }
+
+  nav {
+    justify-content: space-between;
+  }
+}
 
     nav .logo {
       font-size: 1.5rem;
@@ -181,15 +242,18 @@
 <body>
 
   <nav>
-    <div class="logo">Shawawa</div>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#menu">Menu</a></li>
-      <li><a href="#find-us">Find Us</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <div class="logo">Shawawa</div>
+  <button class="menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">
+    ☰
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+    <li><a href="#about" onclick="toggleMenu()">About</a></li>
+    <li><a href="#menu" onclick="toggleMenu()">Menu</a></li>
+    <li><a href="#find-us" onclick="toggleMenu()">Find Us</a></li>
+    <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+  </ul>
+</nav>
 
   <header id="home">
     <img src="Full size logo.jpg" alt="Shawawa Shawarma Logo" />
